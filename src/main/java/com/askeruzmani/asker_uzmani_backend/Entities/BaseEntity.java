@@ -2,6 +2,7 @@ package com.askeruzmani.asker_uzmani_backend.Entities;
 
 import com.askeruzmani.asker_uzmani_backend.Enums.StatusEnum;
 import jakarta.persistence.*;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.sql.Timestamp;
@@ -39,7 +40,8 @@ public class BaseEntity {
 
     @PrePersist
     protected void onCreate() {
-        String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentUser = (auth != null) ? auth.getName() : "SYSTEM";
         this.dateOfRecorded = new Timestamp(System.currentTimeMillis());
         this.userWhoRecorded = currentUser;
         this.dateOfLastUpdated = new Timestamp(System.currentTimeMillis());
@@ -50,11 +52,16 @@ public class BaseEntity {
 
     @PreUpdate
     protected void onUpdate() {
-        String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String currentUser = (auth != null) ? auth.getName() : "SYSTEM";
         this.dateOfLastUpdated = new Timestamp(System.currentTimeMillis());
         this.userWhoLastUpdated = currentUser;
         this.etag = UUID.randomUUID();
-        this.counterOfUniqueData = (long) (Math.random() * Long.MAX_VALUE) + 1;
+    }
+
+    public void softDelete() {
+        this.setStatus(StatusEnum.CLOSED);
+        this.setCounterOfUniqueData((long) ((Math.random() * Long.MAX_VALUE) + 1));
     }
 
     public UUID getId() {

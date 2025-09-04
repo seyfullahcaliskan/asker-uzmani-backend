@@ -1,11 +1,77 @@
 package com.askeruzmani.asker_uzmani_backend.Entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.askeruzmani.asker_uzmani_backend.Enums.StatusEnum;
+import com.askeruzmani.asker_uzmani_backend.Enums.YesNoEnum;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "navlinks")
 public class NavlinksEntity extends BaseEntity {
 
+    @Column(name = "href", nullable = false)
+    private String href;
 
+    @Column(name = "label", nullable = false)
+    private String label;
+
+    @Column(name = "slug")
+    private String slug;
+
+    @Column(name = "category")
+    private String category;
+
+    @Column(name = "filter")
+    private String filterBy;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "is_home_page")
+    private YesNoEnum isHomePage = YesNoEnum.NO;
+
+    public String getHref() {
+        return href;
+    }
+
+    public void setHref(String href) {
+        this.href = href;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getFilterBy() {
+        return filterBy;
+    }
+
+    public void setFilterBy(String filterBy) {
+        this.filterBy = filterBy;
+    }
+
+    public YesNoEnum getIsHomePage() {
+        return isHomePage;
+    }
+
+    public void setIsHomePage(YesNoEnum isHomePage) {
+        this.isHomePage = isHomePage;
+    }
 }
