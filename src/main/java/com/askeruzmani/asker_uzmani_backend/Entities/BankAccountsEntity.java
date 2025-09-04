@@ -17,7 +17,7 @@ public class BankAccountsEntity extends BaseEntity {
     @Column(name = "holder")
     private String holder;
 
-    @Column(name = "bank")
+    @Column(name = "bankId")
     private String bankId;
 
     public String getIban() {

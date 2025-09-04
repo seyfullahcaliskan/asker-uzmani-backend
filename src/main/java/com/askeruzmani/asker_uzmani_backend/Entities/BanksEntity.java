@@ -11,7 +11,7 @@ public class BanksEntity extends BaseEntity {
     @Column(name = "href")
     private String name;
 
-    @Column(name = "href")
+    @Column(name = "url")
     private String url;
 
     public String getName() {
