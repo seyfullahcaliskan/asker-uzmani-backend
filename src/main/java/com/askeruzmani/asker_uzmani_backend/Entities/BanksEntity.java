@@ -11,8 +11,8 @@ public class BanksEntity extends BaseEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "url")
-    private String url;
+    @Column(name = "logo_url")
+    private String logoUrl;
 
     public String getName() {
         return name;
@@ -22,11 +22,11 @@ public class BanksEntity extends BaseEntity {
         this.name = name;
     }
 
-    public String getUrl() {
-        return url;
+    public String getLogoUrl() {
+        return logoUrl;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setLogoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
     }
 }
