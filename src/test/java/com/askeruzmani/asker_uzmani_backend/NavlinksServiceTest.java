@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
 @Rollback(value = false)  // test sonunda DB temizlenir
-class NavlinksServiceIntegrationTest {
+class NavlinksServiceTest {
 
     @Autowired
     private NavlinksRepository navlinksRepository;
@@ -30,8 +30,6 @@ class NavlinksServiceIntegrationTest {
     private NavlinksService navlinksService;
 
     private NavlinksEntity testEntity;
-
-
 
     @BeforeEach
     void setUp() {

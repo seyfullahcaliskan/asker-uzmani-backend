@@ -1,6 +1,5 @@
 package com.askeruzmani.asker_uzmani_backend.Entities;
 
-import com.askeruzmani.asker_uzmani_backend.Enums.StatusEnum;
 import com.askeruzmani.asker_uzmani_backend.Enums.YesNoEnum;
 import jakarta.persistence.*;
 
