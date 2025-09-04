@@ -8,7 +8,7 @@ import jakarta.persistence.Table;
 @Table(name = "banks")
 public class BanksEntity extends BaseEntity {
 
-    @Column(name = "href")
+    @Column(name = "name")
     private String name;
 
     @Column(name = "url")
