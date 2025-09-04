@@ -1,5 +1,6 @@
 package com.askeruzmani.asker_uzmani_backend.Controllers;
 
+import com.askeruzmani.asker_uzmani_backend.Controllers.api.Paths;
 import com.askeruzmani.asker_uzmani_backend.Entities.NavlinksEntity;
 import com.askeruzmani.asker_uzmani_backend.Services.NavlinksService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/navlinks")
+@RequestMapping(Paths.NAVLINKS)
 public class NavlinksController {
 
     @Autowired
