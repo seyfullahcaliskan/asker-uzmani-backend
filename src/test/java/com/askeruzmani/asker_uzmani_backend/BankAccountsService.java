@@ -2,7 +2,6 @@ package com.askeruzmani.asker_uzmani_backend;
 
 import com.askeruzmani.asker_uzmani_backend.Entities.BankAccountsEntity;
 import com.askeruzmani.asker_uzmani_backend.Repositories.BankAccountsRepository;
-import com.askeruzmani.asker_uzmani_backend.Services.BankAccountsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,13 +16,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest
 @Transactional
 @Rollback(value = false)
-public class BankAcoountsService {
+public class BankAccountsService {
 
     @Autowired
     private BankAccountsRepository bankAccountsRepository;
 
     @Autowired
-    private BankAccountsService bankAccountsService;
+    private com.askeruzmani.asker_uzmani_backend.Services.BankAccountsService bankAccountsService;
 
     private BankAccountsEntity bankAccountsEntity;
 
