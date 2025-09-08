@@ -25,7 +25,7 @@ public class ProductEntity extends BaseEntity {
     private String description;
 
     @Column(name = "main_image_path")
-    private String main_image_path;
+    private String mainImagePath;
 
     @Column(name = "price")
     private Integer price;
@@ -76,12 +76,12 @@ public class ProductEntity extends BaseEntity {
         this.description = description;
     }
 
-    public String getMain_image_path() {
-        return main_image_path;
+    public String getMainImagePath() {
+        return mainImagePath;
     }
 
-    public void setMain_image_path(String main_image_path) {
-        this.main_image_path = main_image_path;
+    public void setMainImagePath(String mainImagePath) {
+        this.mainImagePath = mainImagePath;
     }
 
     public Integer getPrice() {
