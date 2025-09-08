@@ -3,6 +3,7 @@ package com.askeruzmani.asker_uzmani_backend;
 import com.askeruzmani.asker_uzmani_backend.Entities.Products.ProductEntity;
 import com.askeruzmani.asker_uzmani_backend.Enums.YesNoEnum;
 import com.askeruzmani.asker_uzmani_backend.Services.Products.ProductService;
+import com.askeruzmani.asker_uzmani_backend.Services.Views.VmProductsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +22,9 @@ public class ProductServiceTest {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private VmProductsService vmProductsService;
+
     @Test
     void testSave() {
         ProductEntity productEntity = new ProductEntity();
@@ -37,5 +41,12 @@ productEntity.setStock(999999);
 
         assertNotNull(saved.getId());
         assertEquals("Nano Dört Mevsim Askeri Çorap 12'li Set", saved.getName());
+    }
+
+    @Test
+    void testGetAll() {
+        var products = vmProductsService.getAll();
+        System.out.println("==== VmProductsService.getAll() sonucu ====");
+        products.forEach(System.out::println);
     }
 }

@@ -6,5 +6,6 @@ public class Paths {
     public static final String BANKS = ROOT_PATH + "/banks";
     public static final String BANK_ACCOUNTS = ROOT_PATH + "/bank-accounts";
     public static final String GENERAL_SETTINGS = ROOT_PATH + "/general-settings";
+    public static final String PRODUCTS = ROOT_PATH + "/products";
 
 }
