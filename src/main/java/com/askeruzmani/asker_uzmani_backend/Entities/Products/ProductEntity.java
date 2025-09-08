@@ -1,7 +1,6 @@
 package com.askeruzmani.asker_uzmani_backend.Entities.Products;
 
 import com.askeruzmani.asker_uzmani_backend.Entities.BaseEntity;
-import com.askeruzmani.asker_uzmani_backend.Enums.ProductCategoryEnum;
 import com.askeruzmani.asker_uzmani_backend.Enums.YesNoEnum;
 import jakarta.persistence.*;
 
@@ -9,12 +8,11 @@ import jakarta.persistence.*;
 @Table(name = "product")
 public class ProductEntity extends BaseEntity {
 
-    @Enumerated(EnumType.ORDINAL)
     @Column(name = "category", nullable = false)
-    private ProductCategoryEnum category;
+    private String category;
 
     @Enumerated(EnumType.ORDINAL)
-    @Column(name = "isSet", nullable = false)
+    @Column(name = "is_set", nullable = false)
     private YesNoEnum isSet;
 
     @Column(name = "name")
@@ -38,11 +36,11 @@ public class ProductEntity extends BaseEntity {
     @Column(name = "stock")
     private Integer stock;
 
-    public ProductCategoryEnum getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(ProductCategoryEnum category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 

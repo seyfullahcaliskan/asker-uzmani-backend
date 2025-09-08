@@ -17,6 +17,9 @@ public class SubProductsEntity extends BaseEntity {
     @Column(name = "product_id")
     private UUID productId;
 
+    @Column(name = "count")
+    private Integer count;
+
     public UUID getMainProductId() {
         return mainProductId;
     }
@@ -31,5 +34,13 @@ public class SubProductsEntity extends BaseEntity {
 
     public void setProductId(UUID productId) {
         this.productId = productId;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 }

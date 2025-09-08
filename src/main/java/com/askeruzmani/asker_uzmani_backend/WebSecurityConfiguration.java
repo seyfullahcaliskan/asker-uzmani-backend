@@ -60,6 +60,7 @@ public class WebSecurityConfiguration {
                             .requestMatchers("/api/v1/users/register").permitAll()
                             .requestMatchers("/api/v1/no-auth/**").permitAll()
                             .requestMatchers("/api/v1/users-payment-request/save").permitAll()
+                            .requestMatchers("/api/**").permitAll()
                             .anyRequest().authenticated();
                 })
                 .sessionManagement(sessionManagement ->

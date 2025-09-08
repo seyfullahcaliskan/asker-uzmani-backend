@@ -23,12 +23,12 @@ public class GeneralSettingsController {
         return ResponseEntity.ok(generalSettingsService.getAll());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<GeneralSettingsEntity> getOne(@PathVariable UUID id) {
-        Optional<GeneralSettingsEntity> Bank = generalSettingsService.getOne(id);
-        return Bank.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<GeneralSettingsEntity> getOne(@PathVariable UUID id) {
+//        Optional<GeneralSettingsEntity> Bank = generalSettingsService.getOne(id);
+//        return Bank.map(ResponseEntity::ok)
+//                .orElse(ResponseEntity.notFound().build());
+//    }
 
     @PostMapping
     public ResponseEntity<GeneralSettingsEntity> create(@RequestBody GeneralSettingsEntity Bank) {
@@ -40,10 +40,10 @@ public class GeneralSettingsController {
         return ResponseEntity.ok(generalSettingsService.update(id, Bank));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
-        generalSettingsService.delete(id);
-        return ResponseEntity.noContent().build();
-    }
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+//        generalSettingsService.delete(id);
+//        return ResponseEntity.noContent().build();
+//    }
     
 }
