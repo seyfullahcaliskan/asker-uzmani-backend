@@ -1,10 +1,14 @@
 package com.askeruzmani.asker_uzmani_backend.Entities.Views;
 
+import com.askeruzmani.asker_uzmani_backend.Enums.YesNoEnum;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.vladmihalcea.hibernate.type.json.JsonType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
+import org.hibernate.annotations.Type;
 
 import java.util.UUID;
 
@@ -17,7 +21,7 @@ public class VmProductsEntity {
 
     @Id
     private UUID id;
-
+private YesNoEnum isSet;
     private String category;
     private String name;
     private String slug;
@@ -27,14 +31,17 @@ public class VmProductsEntity {
     private Integer cartPrice;
     private Integer stock;
 
-    @Column(columnDefinition = "json")
-    private String images;
+    @Type(JsonType.class)
+    @Column(columnDefinition = "jsonb")
+    private JsonNode images;
 
-    @Column(columnDefinition = "json")
-    private String sizes;
+    @Type(JsonType.class)
+    @Column(columnDefinition = "jsonb")
+    private JsonNode sizes;
 
-    @Column(columnDefinition = "json")
-    private String subProducts;
+    @Type(JsonType.class)
+    @Column(columnDefinition = "jsonb")
+    private JsonNode subProducts;
 
     public UUID getId() {
         return id;
@@ -108,27 +115,35 @@ public class VmProductsEntity {
         this.stock = stock;
     }
 
-    public String getImages() {
+    public JsonNode getImages() {
         return images;
     }
 
-    public void setImages(String images) {
+    public void setImages(JsonNode images) {
         this.images = images;
     }
 
-    public String getSizes() {
+    public JsonNode getSizes() {
         return sizes;
     }
 
-    public void setSizes(String sizes) {
+    public void setSizes(JsonNode sizes) {
         this.sizes = sizes;
     }
 
-    public String getSubProducts() {
+    public JsonNode getSubProducts() {
         return subProducts;
     }
 
-    public void setSubProducts(String subProducts) {
+    public void setSubProducts(JsonNode subProducts) {
         this.subProducts = subProducts;
+    }
+
+    public YesNoEnum getIsSet() {
+        return isSet;
+    }
+
+    public void setIsSet(YesNoEnum isSet) {
+        this.isSet = isSet;
     }
 }

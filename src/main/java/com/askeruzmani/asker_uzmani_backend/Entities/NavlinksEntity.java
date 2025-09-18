@@ -26,6 +26,9 @@ public class NavlinksEntity extends BaseEntity {
     @Column(name = "is_home_page")
     private YesNoEnum isHomePage = YesNoEnum.NO;
 
+    @Column(name = "sequence_no", nullable = false)
+    private Integer sequenceNo;
+
     public String getHref() {
         return href;
     }
@@ -72,5 +75,13 @@ public class NavlinksEntity extends BaseEntity {
 
     public void setIsHomePage(YesNoEnum isHomePage) {
         this.isHomePage = isHomePage;
+    }
+
+    public Integer getSequenceNo() {
+        return sequenceNo;
+    }
+
+    public void setSequenceNo(Integer sequenceNo) {
+        this.sequenceNo = sequenceNo;
     }
 }

@@ -6,6 +6,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.sql.Timestamp;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @MappedSuperclass
@@ -42,9 +44,12 @@ public class BaseEntity {
     protected void onCreate() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String currentUser = (auth != null) ? auth.getName() : "SYSTEM";
-        this.dateOfRecorded = new Timestamp(System.currentTimeMillis());
+
+        ZonedDateTime nowInTurkey = ZonedDateTime.now(ZoneId.of("Europe/Istanbul"));
+
+        this.dateOfRecorded = Timestamp.valueOf(nowInTurkey.toLocalDateTime());
         this.userWhoRecorded = currentUser;
-        this.dateOfLastUpdated = new Timestamp(System.currentTimeMillis());
+        this.dateOfLastUpdated = Timestamp.valueOf(nowInTurkey.toLocalDateTime());
         this.userWhoLastUpdated = currentUser;
         this.etag = UUID.randomUUID();
         this.counterOfUniqueData = 0;
@@ -54,7 +59,10 @@ public class BaseEntity {
     protected void onUpdate() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String currentUser = (auth != null) ? auth.getName() : "SYSTEM";
-        this.dateOfLastUpdated = new Timestamp(System.currentTimeMillis());
+
+        ZonedDateTime nowInTurkey = ZonedDateTime.now(ZoneId.of("Europe/Istanbul"));
+
+        this.dateOfLastUpdated = Timestamp.valueOf(nowInTurkey.toLocalDateTime());
         this.userWhoLastUpdated = currentUser;
         this.etag = UUID.randomUUID();
     }

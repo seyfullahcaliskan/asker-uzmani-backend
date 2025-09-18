@@ -1,6 +1,7 @@
 package com.askeruzmani.asker_uzmani_backend.Services;
 
 import com.askeruzmani.asker_uzmani_backend.Entities.NavlinksEntity;
+import com.askeruzmani.asker_uzmani_backend.Enums.StatusEnum;
 import com.askeruzmani.asker_uzmani_backend.Repositories.NavlinksRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class NavlinksService {
     private NavlinksRepository navlinksRepository;
 
     public List<NavlinksEntity> getAll() {
-        return navlinksRepository.findAll();
+        return navlinksRepository.findByStatusOrderBySequenceNoAsc(StatusEnum.ACTIVE);
     }
 
     public Optional<NavlinksEntity> getOne(UUID id) {
