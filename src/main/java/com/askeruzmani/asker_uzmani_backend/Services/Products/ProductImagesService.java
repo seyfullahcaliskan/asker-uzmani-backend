@@ -20,6 +20,10 @@ public class ProductImagesService {
         return productImagesRepository.findAll();
     }
 
+    public List<ProductImagesEntity> getAllWithProductId(UUID productId) {
+        return productImagesRepository.findActiveByProductId(productId);
+    }
+
     public Optional<ProductImagesEntity> getOne(UUID id) {
         return productImagesRepository.findById(id);
     }
@@ -47,6 +51,15 @@ public class ProductImagesService {
             productImagesRepository.save(toDelete);
         } else {
             throw new RuntimeException("Product image not found with id " + id);
+        }
+    }
+
+    public void deleteWithProductId(UUID productId) {
+        List<ProductImagesEntity> entityList = getAllWithProductId(productId);
+        if (!entityList.isEmpty()) {
+            for (ProductImagesEntity entity : entityList) {
+                delete(entity.getId());
+            }
         }
     }
 }

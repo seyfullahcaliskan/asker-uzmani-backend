@@ -20,6 +20,10 @@ public class SubProductsService {
         return subProductsRepository.findAll();
     }
 
+    public List<SubProductsEntity> getAllWithMainProductId(UUID productId) {
+        return subProductsRepository.findActiveByMainProductId( productId);
+    }
+
     public Optional<SubProductsEntity> getOne(UUID id) {
         return subProductsRepository.findById(id);
     }
@@ -47,6 +51,15 @@ public class SubProductsService {
             subProductsRepository.save(toDelete);
         } else {
             throw new RuntimeException("Sub product not found with id " + id);
+        }
+    }
+
+    public void deleteWithMainProductId(UUID productId) {
+        List<SubProductsEntity> entityList = getAllWithMainProductId(productId);
+        if (!entityList.isEmpty()) {
+            for (SubProductsEntity entity : entityList) {
+                delete(entity.getId());
+            }
         }
     }
 }

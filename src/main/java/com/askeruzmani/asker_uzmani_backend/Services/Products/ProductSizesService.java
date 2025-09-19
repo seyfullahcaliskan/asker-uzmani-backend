@@ -20,6 +20,10 @@ public class ProductSizesService {
         return productSizesRepository.findAll();
     }
 
+    public List<ProductSizesEntity> getAllWithProductId(UUID productId) {
+        return productSizesRepository.findActiveByProductId(productId);
+    }
+
     public Optional<ProductSizesEntity> getOne(UUID id) {
         return productSizesRepository.findById(id);
     }
@@ -47,6 +51,15 @@ public class ProductSizesService {
             productSizesRepository.save(toDelete);
         } else {
             throw new RuntimeException("Product size not found with id " + id);
+        }
+    }
+
+    public void deleteWithProductId(UUID productId) {
+        List<ProductSizesEntity> entityList = getAllWithProductId(productId);
+        if (!entityList.isEmpty()) {
+            for (ProductSizesEntity entity : entityList) {
+                delete(entity.getId());
+            }
         }
     }
 }

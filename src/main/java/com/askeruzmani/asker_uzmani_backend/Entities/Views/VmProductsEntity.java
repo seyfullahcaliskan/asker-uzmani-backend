@@ -15,13 +15,13 @@ import java.util.UUID;
 @Entity
 @Immutable
 @Subselect("""
-    SELECT * FROM public.vm_products
-""")
+            SELECT * FROM public.vm_products
+        """)
 public class VmProductsEntity {
 
     @Id
     private UUID id;
-private YesNoEnum isSet;
+    private YesNoEnum isSet;
     private String category;
     private String name;
     private String slug;

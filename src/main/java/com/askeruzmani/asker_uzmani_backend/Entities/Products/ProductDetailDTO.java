@@ -49,8 +49,6 @@ public class ProductDetailDTO extends BaseEntity {
     @Column(name = "stock")
     private Integer stock;
 
-    /** ================= Relations ================= */
-
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
     @Filter(name = "statusFilter", condition = "status = :status")
@@ -65,9 +63,6 @@ public class ProductDetailDTO extends BaseEntity {
     @JoinColumn(name = "main_product_id")
     @Filter(name = "statusFilter", condition = "status = :status")
     private List<SubProductsEntity> subProducts;
-
-
-    /** ============== Getter-Setter ============== */
 
     public String getCategory() {
         return category;
