@@ -96,7 +96,6 @@ public class MainProductService {
         ProductEntity existing = productService.getOne(productId)
                 .orElseThrow(() -> new RuntimeException("Ürün bulunamadı: " + productId));
 
-        // 1️⃣ Ana ürün
         existing.setName(dto.getName());
         existing.setSlug(dto.getSlug());
         existing.setCategory(dto.getCategory());
@@ -108,7 +107,6 @@ public class MainProductService {
         existing.setStock(dto.getStock() != null ? dto.getStock() : 99999999);
         productService.save(existing);
 
-        // 2️⃣ Images
         List<ProductImagesEntity> existingImages = productImagesService.getAllWithProductId(productId);
         Map<String, ProductImagesEntity> existingImagesMap = existingImages.stream()
                 .collect(Collectors.toMap(ProductImagesEntity::getPath, img -> img));
@@ -122,7 +120,6 @@ public class MainProductService {
                 }
                 existingImagesMap.remove(img.getPath());
             } else {
-                // yeni ekleme
                 ProductImagesEntity newImg = new ProductImagesEntity();
                 newImg.setProductId(productId);
                 newImg.setPath(img.getPath());
