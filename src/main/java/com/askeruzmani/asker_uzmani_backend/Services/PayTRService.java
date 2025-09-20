@@ -11,14 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.util.MultiValueMap;
 import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.Base64;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +39,7 @@ public class PayTRService {
     @Value("${paytr.merchant_salt}")
     private String merchantSalt;
     @Value("${paytr.merchant_ok_url}")
-    private String merchantOkUrl;
+    private String baseMerchantOkUrl;
     @Value("${paytr.merchant_fail_url}")
     private String merchantFailUrl;
 
@@ -79,7 +82,7 @@ public class PayTRService {
         form.add("user_name", userName);
         form.add("user_address", userAddress);
         form.add("user_phone", userPhone);
-        form.add("merchant_ok_url", merchantOkUrl);
+        form.add("merchant_ok_url", baseMerchantOkUrl + "/" + merchantOid);
         form.add("merchant_fail_url", merchantFailUrl);
         form.add("currency", currency);
         form.add("test_mode", String.valueOf(testMode));
