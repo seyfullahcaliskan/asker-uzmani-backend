@@ -12,4 +12,5 @@ public interface OrdersRepository extends JpaRepository<OrdersEntity, UUID> {
 
     Optional<OrdersEntity> findByMerchantOid(String merchantOid);
 
+    Optional<OrdersEntity> findByOrderNo(String orderNo);
 }

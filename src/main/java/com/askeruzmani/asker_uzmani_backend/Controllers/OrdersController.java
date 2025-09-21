@@ -32,7 +32,6 @@ public class OrdersController {
     @Autowired
     private ObjectMapper objectMapper;
 
-    // 1) Sipariş oluştur
     @PostMapping("/create")
     public ResponseEntity<Map<String, Object>> createOrder(@RequestBody OrderRequest request) throws JsonProcessingException {
         String merchantOid = UUID.randomUUID().toString().replace("-", "");
@@ -57,11 +56,10 @@ order.setOrderNo(generateOrderNo());
 
     public static String generateOrderNo() {
         Random random = new Random();
-        int number = 10000000 + random.nextInt(90000000); // 8 haneli sayı
+        int number = 10000000 + random.nextInt(90000000);
         return "AU" + number;
     }
 
-    // 2) PayTR token
     @PostMapping("/paytr/token")
     public ResponseEntity<Map<String, String>> getPaytrToken(@RequestBody Map<String, Object> payload,
                                                              HttpServletRequest request) throws Exception {
@@ -74,7 +72,6 @@ order.setOrderNo(generateOrderNo());
 
         OrdersEntity order = orderOpt.get();
 
-        // DB’den zorunlu alanlar
         payload.put("merchant_oid", order.getMerchantOid());
         payload.put("email", order.getCustomerEmail());
         payload.put("payment_amount", order.getAmount().multiply(BigDecimal.valueOf(100)).intValue());
@@ -86,16 +83,21 @@ order.setOrderNo(generateOrderNo());
         return ResponseEntity.ok(paytrService.generateToken(payload, request));
     }
 
-    // 3) PayTR bildirim
     @PostMapping("/paytr/notification")
     public ResponseEntity<String> paytrNotification(@RequestParam Map<String, String> post) throws Exception {
         return paytrService.handleNotification(post);
     }
 
-    // 4) Sipariş sorgulama
     @GetMapping("/{merchantOid}")
     public ResponseEntity<?> getOrder(@PathVariable String merchantOid) {
         return orderRepository.findByMerchantOid(merchantOid)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("get-one-by-order-no/{orderNo}")
+    public ResponseEntity<?> getOrderWithOrderNo(@PathVariable String orderNo) {
+        return orderRepository.findByOrderNo(orderNo)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
