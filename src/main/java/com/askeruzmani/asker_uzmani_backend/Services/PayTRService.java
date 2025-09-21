@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -145,4 +146,38 @@ public class PayTRService {
         sha256Hmac.init(secretKey);
         return Base64.getEncoder().encodeToString(sha256Hmac.doFinal(data.getBytes(StandardCharsets.UTF_8)));
     }
+
+    public Map<String, Object> refundOrder(String merchantOid, BigDecimal returnAmount) throws Exception {
+        // TL cinsinden gönderiliyor, örnek: 10.25
+        String returnAmountStr = returnAmount.toPlainString();
+
+        // Hash için string
+        String hashStr = merchantId + merchantOid + returnAmountStr + merchantSalt;
+        String paytrToken = base64HmacSha256(hashStr, merchantKey);
+
+        RestTemplate rest = new RestTemplate();
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
+        form.add("merchant_id", merchantId);
+        form.add("merchant_oid", merchantOid);
+        form.add("return_amount", returnAmountStr);
+        form.add("paytr_token", paytrToken);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(form, headers);
+        ResponseEntity<String> response = rest.postForEntity(
+                "https://www.paytr.com/odeme/iade",
+                entity,
+                String.class
+        );
+
+        if (response.getStatusCode() != HttpStatus.OK || response.getBody() == null) {
+            throw new IllegalStateException("PayTR iade isteği başarısız");
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(response.getBody(), new TypeReference<>() {});
+    }
+
 }

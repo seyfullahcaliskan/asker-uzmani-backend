@@ -9,7 +9,8 @@ public enum PayStatusEnum implements IdentifiableEnum {
     NONE(0, "NONE"),
     PENDING(1, "Bekleniyor"),
     SUCCESS(2, "Başarılı"),
-    FAILED(3, "Başarısız");
+    FAILED(3, "Başarısız"),
+    RETURNED(4, "İade Edildi");
 
     private final int id;
     private final String value;

@@ -2,6 +2,7 @@ package com.askeruzmani.asker_uzmani_backend.Services;
 
 import com.askeruzmani.asker_uzmani_backend.Entities.Orders.OrdersEntity;
 import com.askeruzmani.asker_uzmani_backend.Enums.CargoStatusEnum;
+import com.askeruzmani.asker_uzmani_backend.Enums.PayStatusEnum;
 import com.askeruzmani.asker_uzmani_backend.Enums.StatusEnum;
 import com.askeruzmani.asker_uzmani_backend.Repositories.OrdersRepository;
 import org.springframework.beans.BeanUtils;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -20,6 +22,9 @@ public class OrdersService {
 
     @Autowired
     private OrdersRepository ordersRepository;
+
+    @Autowired
+    private PayTRService payTRService;
 
     public List<OrdersEntity> getAll() {
         return ordersRepository.findAll();
@@ -74,6 +79,7 @@ public class OrdersService {
         return ResponseEntity.ok("Kargo bilgisi kaydedildi");
     }
 
+    @Transactional
     public ResponseEntity<String> completeOrder(UUID orderId) throws Exception {
 
         Optional<OrdersEntity> orderOpt = ordersRepository.findById(orderId);
@@ -87,16 +93,26 @@ public class OrdersService {
         return ResponseEntity.ok("Sipariş tamamlandı.");
     }
 
+    @Transactional
     public ResponseEntity<String> cancelOrder(UUID orderId) throws Exception {
-
         Optional<OrdersEntity> orderOpt = ordersRepository.findById(orderId);
         if (!orderOpt.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sipariş bulunamadı");
         }
 
         OrdersEntity order = orderOpt.get();
+        Map<String, Object> refundResult = payTRService.refundOrder(order.getMerchantOid(), order.getAmount());
+
+        if (!"success".equals(refundResult.get("status"))) {
+            String errMsg = refundResult.containsKey("err_msg") ? refundResult.get("err_msg").toString() : "Bilinmeyen hata";
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("İade başarısız: " + errMsg);
+        }
+
         order.setStatus(StatusEnum.CANCELLED);
+        order.setPayStatus(PayStatusEnum.RETURNED);
         ordersRepository.save(order);
-        return ResponseEntity.ok("Sipariş iptal edildi.");
+
+        return ResponseEntity.ok("Sipariş iptal edildi ve iade işlemi başarılı.");
     }
+
 }
