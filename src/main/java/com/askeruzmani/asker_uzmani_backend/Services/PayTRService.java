@@ -18,6 +18,8 @@ import org.springframework.web.client.RestTemplate;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.Map;
@@ -120,6 +122,7 @@ public class PayTRService {
 
         if ("success".equals(status)) {
             order.setPayStatus(PayStatusEnum.SUCCESS);
+            order.setDateOfPay(Timestamp.valueOf(LocalDateTime.now()));
         } else {
             order.setPayStatus(PayStatusEnum.FAILED);
         }

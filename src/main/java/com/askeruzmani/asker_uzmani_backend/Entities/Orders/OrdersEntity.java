@@ -1,12 +1,14 @@
 package com.askeruzmani.asker_uzmani_backend.Entities.Orders;
 
 import com.askeruzmani.asker_uzmani_backend.Entities.BaseEntity;
+import com.askeruzmani.asker_uzmani_backend.Enums.CargoStatusEnum;
 import com.askeruzmani.asker_uzmani_backend.Enums.PayStatusEnum;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Type;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +43,19 @@ public class OrdersEntity extends BaseEntity {
 
     @Column(name="order_no",unique = true, length = 10)
     private String orderNo;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "cargo_status", nullable = false)
+    private CargoStatusEnum cargoStatus = CargoStatusEnum.WAITING;
+
+    @Column(name="cargo_code",unique = true, length = 100)
+    private String cargoCode;
+
+    @Column(name = "date_of_pay")
+    private Timestamp dateOfPay;
+
+    @Column(name = "cargo_company")
+    private String cargoCompany;
 
     public String getMerchantOid() {
         return merchantOid;
@@ -112,5 +127,37 @@ public class OrdersEntity extends BaseEntity {
 
     public void setOrderNo(String orderNo) {
         this.orderNo = orderNo;
+    }
+
+    public CargoStatusEnum getCargoStatus() {
+        return cargoStatus;
+    }
+
+    public void setCargoStatus(CargoStatusEnum cargoStatus) {
+        this.cargoStatus = cargoStatus;
+    }
+
+    public String getCargoCode() {
+        return cargoCode;
+    }
+
+    public void setCargoCode(String cargoCode) {
+        this.cargoCode = cargoCode;
+    }
+
+    public Timestamp getDateOfPay() {
+        return dateOfPay;
+    }
+
+    public void setDateOfPay(Timestamp dateOfPay) {
+        this.dateOfPay = dateOfPay;
+    }
+
+    public String getCargoCompany() {
+        return cargoCompany;
+    }
+
+    public void setCargoCompany(String cargoCompany) {
+        this.cargoCompany = cargoCompany;
     }
 }

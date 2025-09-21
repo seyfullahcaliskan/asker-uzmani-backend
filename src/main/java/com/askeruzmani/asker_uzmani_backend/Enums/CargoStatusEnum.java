@@ -1,30 +1,27 @@
 package com.askeruzmani.asker_uzmani_backend.Enums;
 
-
 import com.askeruzmani.asker_uzmani_backend.Utils.IdentifiableEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum StatusEnum implements IdentifiableEnum {
+public enum CargoStatusEnum implements IdentifiableEnum {
     NONE(0, "NONE"),
-    CLOSED(1, "Kapalı"),
-    PASSIVE(2, "Pasif"),
-    ACTIVE(3, "Aktif"),
-    CANCELLED(4, "İptal"),
-    COMPLETED(5, "Tamamlandı");
+    WAITING(1, "Kargo Bekleniyor"),
+    IN_CARGO(2, "Kargoya Verildi."),
+    DELIVERED(3, "Teslim edildi.");
 
     private final int id;
     private final String value;
 
-    StatusEnum(int id, String value) {
+    CargoStatusEnum(int id, String value) {
         this.id = id;
         this.value = value;
     }
 
     // ID ile enum bulma
-    public static StatusEnum fromId(int id) {
-        for (StatusEnum e : values()) {
+    public static CargoStatusEnum fromId(int id) {
+        for (CargoStatusEnum e : values()) {
             if (e.id == id) {
                 return e;
             }
@@ -33,8 +30,8 @@ public enum StatusEnum implements IdentifiableEnum {
     }
 
     // Value ile enum bulma
-    public static StatusEnum fromValue(String value) {
-        for (StatusEnum e : values()) {
+    public static CargoStatusEnum fromValue(String value) {
+        for (CargoStatusEnum e : values()) {
             if (e.value.equalsIgnoreCase(value)) {
                 return e;
             }
@@ -44,7 +41,7 @@ public enum StatusEnum implements IdentifiableEnum {
 
     // JSON serileştirme/deserileştirme
     @JsonCreator
-    public static StatusEnum fromJson(@JsonProperty("id") Integer id, @JsonProperty("value") String value) {
+    public static CargoStatusEnum fromJson(@JsonProperty("id") Integer id, @JsonProperty("value") String value) {
         if (id != null) {
             return fromId(id);
         } else if (value != null) {
@@ -64,15 +61,15 @@ public enum StatusEnum implements IdentifiableEnum {
     }
 
     @JsonValue
-    public StatusRepresentation toJson() {
-        return new StatusRepresentation(id, value);
+    public CargoStatusEnum.CargoStatusRepresentation toJson() {
+        return new CargoStatusEnum.CargoStatusRepresentation(id, value);
     }
 
-    public static class StatusRepresentation {
+    public static class CargoStatusRepresentation {
         private final int id;
         private final String value;
 
-        public StatusRepresentation(int id, String value) {
+        public CargoStatusRepresentation(int id, String value) {
             this.id = id;
             this.value = value;
         }

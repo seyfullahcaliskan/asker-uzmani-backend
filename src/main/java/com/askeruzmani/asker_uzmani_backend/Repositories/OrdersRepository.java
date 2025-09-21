@@ -4,6 +4,7 @@ import com.askeruzmani.asker_uzmani_backend.Entities.Orders.OrdersEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -13,4 +14,6 @@ public interface OrdersRepository extends JpaRepository<OrdersEntity, UUID> {
     Optional<OrdersEntity> findByMerchantOid(String merchantOid);
 
     Optional<OrdersEntity> findByOrderNo(String orderNo);
+
+    List<OrdersEntity> findAllByOrderByDateOfRecordedDesc();
 }

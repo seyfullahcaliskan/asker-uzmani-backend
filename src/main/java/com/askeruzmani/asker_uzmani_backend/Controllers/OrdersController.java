@@ -3,8 +3,10 @@ package com.askeruzmani.asker_uzmani_backend.Controllers;
 import com.askeruzmani.asker_uzmani_backend.Controllers.api.Paths;
 import com.askeruzmani.asker_uzmani_backend.Entities.Orders.OrderRequest;
 import com.askeruzmani.asker_uzmani_backend.Entities.Orders.OrdersEntity;
+import com.askeruzmani.asker_uzmani_backend.Enums.CargoStatusEnum;
 import com.askeruzmani.asker_uzmani_backend.Enums.PayStatusEnum;
 import com.askeruzmani.asker_uzmani_backend.Repositories.OrdersRepository;
+import com.askeruzmani.asker_uzmani_backend.Services.OrdersService;
 import com.askeruzmani.asker_uzmani_backend.Services.PayTRService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,10 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping(Paths.ORDERS)
@@ -27,10 +26,19 @@ public class OrdersController {
     private OrdersRepository orderRepository;
 
     @Autowired
+    private OrdersService ordersService;
+
+    @Autowired
     private PayTRService paytrService;
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    public static String generateOrderNo() {
+        Random random = new Random();
+        int number = 10000000 + random.nextInt(90000000);
+        return "AU" + number;
+    }
 
     @PostMapping("/create")
     public ResponseEntity<Map<String, Object>> createOrder(@RequestBody OrderRequest request) throws JsonProcessingException {
@@ -45,19 +53,14 @@ public class OrdersController {
         order.setItems(request.getItems());
         order.setAmount(request.getAmount());
         order.setPayStatus(PayStatusEnum.PENDING);
-order.setOrderNo(generateOrderNo());
+        order.setOrderNo(generateOrderNo());
+        order.setCargoStatus(CargoStatusEnum.WAITING);
         orderRepository.save(order);
 
         return ResponseEntity.ok(Map.of(
                 "merchantOid", merchantOid,
                 "orderId", order.getId()
         ));
-    }
-
-    public static String generateOrderNo() {
-        Random random = new Random();
-        int number = 10000000 + random.nextInt(90000000);
-        return "AU" + number;
     }
 
     @PostMapping("/paytr/token")
@@ -101,4 +104,26 @@ order.setOrderNo(generateOrderNo());
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @GetMapping("get-all")
+    public ResponseEntity<?> getAll() {
+        List<OrdersEntity> orders = orderRepository.findAllByOrderByDateOfRecordedDesc();
+        return ResponseEntity.ok(orders);
+    }
+
+    @PostMapping("/set-cargo")
+    public ResponseEntity<String> setCargo(@RequestBody Map<String, String> cargoData) throws Exception {
+        return ordersService.setCargo(cargoData);
+    }
+
+    @PostMapping("/complete-order/{orderId}")
+    public ResponseEntity<String> completeOrder(@PathVariable UUID orderId) throws Exception {
+        return ordersService.completeOrder(orderId);
+    }
+
+    @PostMapping("/cancel-order/{orderId}")
+    public ResponseEntity<String> cancelOrder(@PathVariable UUID orderId) throws Exception {
+        return ordersService.cancelOrder(orderId);
+    }
+
 }
