@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
 
 @RestController
@@ -45,13 +46,19 @@ public class OrdersController {
         order.setItems(request.getItems());
         order.setAmount(request.getAmount());
         order.setPayStatus(PayStatusEnum.PENDING);
-
+order.setOrderNo(generateOrderNo());
         orderRepository.save(order);
 
         return ResponseEntity.ok(Map.of(
                 "merchantOid", merchantOid,
                 "orderId", order.getId()
         ));
+    }
+
+    public static String generateOrderNo() {
+        Random random = new Random();
+        int number = 10000000 + random.nextInt(90000000); // 8 haneli sayı
+        return "AU" + number;
     }
 
     // 2) PayTR token

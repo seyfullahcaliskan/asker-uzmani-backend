@@ -39,6 +39,9 @@ public class OrdersEntity extends BaseEntity {
     @Column(name = "pay_status", nullable = false)
     private PayStatusEnum payStatus = PayStatusEnum.PENDING;
 
+    @Column(name="order_no",unique = true, length = 10)
+    private String orderNo;
+
     public String getMerchantOid() {
         return merchantOid;
     }
@@ -101,5 +104,13 @@ public class OrdersEntity extends BaseEntity {
 
     public void setPayStatus(PayStatusEnum payStatus) {
         this.payStatus = payStatus;
+    }
+
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
     }
 }
