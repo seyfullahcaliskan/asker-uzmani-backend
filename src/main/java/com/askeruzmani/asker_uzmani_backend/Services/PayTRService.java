@@ -30,7 +30,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PayTRService {
 
-    private final OrdersRepository ordersRepository;
+    @Autowired
+    private OrdersRepository ordersRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
